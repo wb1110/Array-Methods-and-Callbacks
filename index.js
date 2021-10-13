@@ -73,10 +73,10 @@ hint: the strings returned need to exactly match the string in step 4.
  */
 //map and use index in addition to the item
 function getWinnersByYear(array, getYearscb, getWinnerscb, getFinalscb) {
-     const year = getYearscb(array, getFinalscb).map(item => item);
-     const country = getWinnerscb(array, getFinalscb).map(item => item);
-     return `In ${year[1]}, ${country[1]} won the world cup!`;
-
+     let year = getYearscb(array, getFinalscb);
+     let country = getWinnerscb(array, getFinalscb);
+    let zipped = year.map((x, i) => `In ${x}, ${country[i]} won the world cup!`);
+    return zipped;
 }
 console.log(getWinnersByYear(fifaData, getYears, getWinners, getFinals))
 
@@ -91,10 +91,14 @@ Use the higher order function getAverageGoals to do the following:
  Example of invocation: getAverageGoals(getFinals(fifaData));
 */
 
-function getAverageGoals(/* code here */) {
-   /* code here */
+function getAverageGoals(getFinalscb) {
+    let avgHomeGoals = getFinalscb.reduce((total, val) => total + val["Home Team Goals"], 0);
+    let avgAwayGoals = getFinalscb.reduce((total, val) => total + val["Away Team Goals"], 0);
+    const combined = (avgHomeGoals + avgAwayGoals)/(getFinalscb.length);
+    let answer = (Math.round(combined * 100) /100);
+    return answer.toString();
 }
-
+console.log(getAverageGoals(getFinals(fifaData)))
 
 
 
